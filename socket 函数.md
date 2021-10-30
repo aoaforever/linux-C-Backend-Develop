@@ -73,8 +73,8 @@ struct in_addr{
  
  ```
  参数：  
- `string`:IP地址字符串
- `addr`:转换后的值存放在这里。一般传入sockaddr_in结构体里的sin_addr成员。
+ `string`:IP地址字符串  
+ `addr`:转换后的值存放在这里.一般传入sockaddr_in结构体里的sin_addr成员。  
 `inet_aton()`能够将一个字符串IP地址转换为一个32位的网络序列IP地址。  
 成功返回非零值，如果输入地址不正确则会返回零。使用这个函数并没有`错误码`存放在`errno`中，所以他的值会被忽略。  
 
