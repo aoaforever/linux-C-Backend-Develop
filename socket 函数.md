@@ -34,5 +34,49 @@ int socket(int domain, int type, int protocol);
 当一个会话已经完成时，可以执行`close()`关闭连接。  
 Out-of-band data（[带外数据、加速数据](https://blog.csdn.net/yejing_utopia/article/details/45154159 "解释")）也可以使用`send()`和`recv()`来发送接受紧急数据。 
 
+---
+```cpp
+int bind(int sockfd, const struct sockaddr *addr, socklen_t addrlen);
+```
+### 参数：  
+`sockfd`:套接字的fd  
+`*addr`:用于绑定ip地址和端口等信息  
+`addrlen`:该sockaddr结构体的长度
+
+其中sockaddr结构体如下所示：
+```cpp
+struct sockaddr{  
+  sa_family_t sa_family;//地址族，2字节
+  char        sa_data[14];//14字节，包含套接字中的目标地址和端口信息
+};
+```  
+sockaddr的缺陷是: `sa_data`把目标地址和端口信息混在了一起。  
+因此，通常会用下面这个结构体来代替：  
+```cpp
+struct sockaddr_in{
+    sa_family_t     sin_family;   //地址镞（Address Family） 2字节
+    uint16_t        sin_port;     //16位TCP/UDP端口号  2字节
+    struct in_addr  sin_addr;     //32位IP地址         4字节
+    char            sin_zero[8];  //不使用             8字节
+};
+
+struct in_addr{
+    In_addr_t s_addr;             //32位IP地址
+};
+
+```
+`sin_port`和`sin_addr`都必须是网络字节序（NBO），一般可视化的数字都是主机字节序（HBO）。  
+
+
+ ```cpp
+ int inet_aton( const char* string, struct in_addr* addr );
+ 
+ ```
+ 参数：  
+ `string`:IP地址字符串
+ `addr`:转换后的值存放在这里。一般传入sockaddr_in结构体里的sin_addr成员。
+`inet_aton()`能够将一个字符串IP地址转换为一个32位的网络序列IP地址。  
+成功返回非零值，如果输入地址不正确则会返回零。使用这个函数并没有`错误码`存放在`errno`中，所以他的值会被忽略。  
+
 
 
