@@ -1,9 +1,26 @@
-函数说明
+socket网络编程函数说明
 ==
+[socket()](#socket)
 
+## 服务器端  
+服务器端有如下函数(并未列完)：  
+```cpp
+#include <sys/socket.h>
+int socket(int domain, int type, int protocol);  
+int bind(int sockfd, const struct sockaddr *addr, socklen_t addrlen);  
+int accept( int sockfd, struct sockaddr *addr, socklen_t *addrlen);  
+size_t recv(int sockfd, void*buf, size_t len, int flags);  
+ssize_t read(int fd, void* buf, size_t len); //#include <unistd.h>
+ssize_t send(int sockfd, const void *buf, size_t len, int flags);  
+ssize_t write(int fd, const void *buf, size_t count);  //#include <unistd.h>  
+int close(int fd);
+```
+---  
+### socket
 ```cpp
 int socket(int domain, int type, int protocol);
 ```
+`socket()`用于创建通信的端点，并返回指向该端点的文件描述符。成功调用返回的文件描述符将是当前未被进程打开的编号最低的文件描述符。  
 ### 参数：  
 `domain`:选择协议族用以通信。这些协议族定义在了 <sys/socket.h>中。一般传入以下值：
 | Name | Purpose | 
@@ -37,7 +54,11 @@ Out-of-band data（[带外数据、加速数据](https://blog.csdn.net/yejing_ut
 ---
 ```cpp
 int bind(int sockfd, const struct sockaddr *addr, socklen_t addrlen);
-```
+```  
+当使用`socket()`创建套接字时，它存在于名称空间(地址族)中，但没有分配给它地址。  
+`bind()`将addr指定的地址分配给文件描述符`sockfd`引用的套接字。  
+`Addrlen`表示addr所指向的地址结构的大小，以字节为单位。  
+传统上，这个操作称为“为套接字分配名称”(assigning a name to a socket)。  
 ### 参数：  
 `sockfd`:套接字的fd  
 `*addr`:用于绑定ip地址和端口等信息  
@@ -65,13 +86,16 @@ struct in_addr{
 };
 
 ```
-`sin_port`和`sin_addr`都必须是网络字节序（NBO），一般可视化的数字都是主机字节序（HBO）。  
+`sin_port`和`sin_addr`都必须是网络字节序（NBO），一般可视化的数字都是主机字节序（HBO）。    
+  
+  
 
-
+---  
  ```cpp
- int inet_aton( const char* string, struct in_addr* addr );
+ int inet_aton( const char* string, struct in_addr* addr ); // #include <arpa/inet.h>
  
  ```
+ `inet_aton()`将网络地址（点分十进制）转成网络二进制的数字（网络字节序）
  ### 参数：  
  `string`:IP地址字符串  
  `addr`:转换后的值存放在这里.一般传入sockaddr_in结构体里的sin_addr成员。  
@@ -95,7 +119,7 @@ accept()系统调用与基于连接的套接字类型(SOCK_STREAM, SOCK_SEQPACKE
 ---  
 ```cpp
 size_t recv(int sockfd, void*buf, size_t len, int flags);
-ssize_t read(int fd, void* buf, size_t len); //#include <unistd.h
+ssize_t read(int fd, void* buf, size_t len); //#include <unistd.h>
 ```  
 `recv()`和`read()`之间的唯一区别是`recv()`有`flags`参数。 如果`flags`参数为0, `recv()`通常等同于`read()`。    
 `recv()`系统调用用于从套接字接收消息。它们可以用于在无连接和面向连接的套接字上接收数据。  
@@ -107,6 +131,19 @@ ssize_t read(int fd, void* buf, size_t len); //#include <unistd.h
 ssize_t send(int sockfd, const void *buf, size_t len, int flags);  
 ssize_t write(int fd, const void *buf, size_t count);  //#include <unistd.h>
 ```  
+`send()`系统调用用于将消息传送给另一个socket。  
+`send()`和`write()`的区别在于`send()`有参数`flags`。如果`flags`参数为0，`send()`通常等同于`write()`。
+
+---
+```cpp
+int close(int fd);
+```  
+`Close()`关闭文件描述符，这样它就不再指向任何文件，可以被重用。任何记录锁都将被删除(不管用于获取锁的文件描述符是什么)。  
+成功关闭返回`0`。错误返回`-1`,并且恰当的设置`errno`。  
+**服务端记得同时关闭`socket()`创建的`fd`，和`accept()`创建的`fd`。**  
+
+---
+
 
 
 
