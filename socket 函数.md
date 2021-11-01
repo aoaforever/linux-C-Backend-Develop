@@ -1,7 +1,20 @@
 socket网络编程函数说明
 ==
-[socket()](#socket)
-
+* [服务器端](#服务器端)
+  * [socket()](#socket)  
+  * [bind()](#bind)  
+  * [inet_aton()](#inet_aton)  
+  * [accept()](#accept)  
+  * [recv/read()](#recv)  
+  * [send/write()](#send)  
+  * [close()](#close)  
+* [客户端](#客户端)
+  * [socket()](#socket)  
+  * [connect()](#connect)
+  * [recv/read()](#recv)  
+  * [send/write()](#send)  
+  * [close()](#close)  
+  
 ## 服务器端  
 服务器端有如下函数(并未列完)：  
 ```cpp
@@ -52,6 +65,7 @@ int socket(int domain, int type, int protocol);
 Out-of-band data（[带外数据、加速数据](https://blog.csdn.net/yejing_utopia/article/details/45154159 "解释")）也可以使用`send()`和`recv()`来发送接受紧急数据。 
 
 ---
+### bind
 ```cpp
 int bind(int sockfd, const struct sockaddr *addr, socklen_t addrlen);
 ```  
@@ -91,6 +105,7 @@ struct in_addr{
   
 
 ---  
+### inet_aton
  ```cpp
  int inet_aton( const char* string, struct in_addr* addr ); // #include <arpa/inet.h>
  
@@ -103,6 +118,7 @@ struct in_addr{
 成功返回非零值，如果输入地址不正确则会返回零。使用这个函数并没有`错误码`存放在`errno`中，所以他的值会被忽略。  
 
 ---  
+### accept
 ```cpp
 int accept( int sockfd, struct sockaddr *addr, socklen_t *addrlen);
 ```  
@@ -117,6 +133,7 @@ accept()系统调用与基于连接的套接字类型(SOCK_STREAM, SOCK_SEQPACKE
 `addrlen`:注意是个指针，先初始化为addr指向的结构体的长度，在函数调用结束后被设置为实际地址信息的长度。  
 
 ---  
+### recv
 ```cpp
 size_t recv(int sockfd, void*buf, size_t len, int flags);
 ssize_t read(int fd, void* buf, size_t len); //#include <unistd.h>
@@ -127,6 +144,7 @@ ssize_t read(int fd, void* buf, size_t len); //#include <unistd.h>
 如果套接字上没有可用的消息，`recv()`将阻塞等待消息到达，除非套接字是非阻塞的，在这种情况下返回值`-1`，并将外部变量`errno`设置为`EAGAIN`或`EWOULDBLOCK`。  
 
 ---  
+### send
 ```cpp
 ssize_t send(int sockfd, const void *buf, size_t len, int flags);  
 ssize_t write(int fd, const void *buf, size_t count);  //#include <unistd.h>
@@ -135,6 +153,7 @@ ssize_t write(int fd, const void *buf, size_t count);  //#include <unistd.h>
 `send()`和`write()`的区别在于`send()`有参数`flags`。如果`flags`参数为0，`send()`通常等同于`write()`。
 
 ---
+### close
 ```cpp
 int close(int fd);
 ```  
@@ -142,7 +161,30 @@ int close(int fd);
 成功关闭返回`0`。错误返回`-1`,并且恰当的设置`errno`。  
 **服务端记得同时关闭`socket()`创建的`fd`，和`accept()`创建的`fd`。**  
 
----
+---  
+
+## 客户端  
+客户端用如下函数：
+```cpp
+#include <sys/socket.h>
+int socket(int domain, int type, int protocol);  
+int connect(int sockfd, const struct sockaddr *addr, socklen_t addrlen);
+size_t recv(int sockfd, void*buf, size_t len, int flags);  
+ssize_t read(int fd, void* buf, size_t len); //#include <unistd.h>
+ssize_t send(int sockfd, const void *buf, size_t len, int flags);  
+ssize_t write(int fd, const void *buf, size_t count);  //#include <unistd.h>  
+int close(int fd);
+```
+### connect  
+```cpp
+int connect(int sockfd, const struct sockaddr *addr, socklen_t addrlen);
+```
+`connect()`系统调用将文件描述符`sockfd`引用的套接字连接到由`addr`指定的地址。  
+参数`addrlen`指定了`addr`的大小。  
+`addr`中地址的格式由`sockfd`的地址空间决定。    
+成功连接返回`0`，失败返回`-1`，并且恰当的设置`errno`。
+
+
 
 
 
