@@ -95,12 +95,18 @@ accept()系统调用与基于连接的套接字类型(SOCK_STREAM, SOCK_SEQPACKE
 ---  
 ```cpp
 size_t recv(int sockfd, void*buf, size_t len, int flags);
-ssize_t read(int fd, void* buf, size_t len);
+ssize_t read(int fd, void* buf, size_t len); //#include <unistd.h
 ```  
 `recv()`和`read()`之间的唯一区别是`recv()`有`flags`参数。 如果`flags`参数为0, `recv()`通常等同于`read()`。    
 `recv()`系统调用用于从套接字接收消息。它们可以用于在无连接和面向连接的套接字上接收数据。  
-返回消息的长度。如果消息太长而无法放入所提供的缓冲区，则根据接收消息的套接字类型，可能会丢弃多余的字节。  
+`recv()`返回消息的长度。如果消息太长而无法放入所提供的缓冲区，则根据接收消息的套接字类型，可能会丢弃多余的字节。  
 如果套接字上没有可用的消息，`recv()`将阻塞等待消息到达，除非套接字是非阻塞的，在这种情况下返回值`-1`，并将外部变量`errno`设置为`EAGAIN`或`EWOULDBLOCK`。  
+
+---  
+```cpp
+ssize_t send(int sockfd, const void *buf, size_t len, int flags);  
+ssize_t write(int fd, const void *buf, size_t count);  //#include <unistd.h>
+```  
 
 
 
