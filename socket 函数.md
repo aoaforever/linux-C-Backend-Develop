@@ -72,11 +72,35 @@ struct in_addr{
  int inet_aton( const char* string, struct in_addr* addr );
  
  ```
- 参数：  
+ ### 参数：  
  `string`:IP地址字符串  
  `addr`:转换后的值存放在这里.一般传入sockaddr_in结构体里的sin_addr成员。  
 `inet_aton()`能够将一个字符串IP地址转换为一个32位的网络序列IP地址。  
 成功返回非零值，如果输入地址不正确则会返回零。使用这个函数并没有`错误码`存放在`errno`中，所以他的值会被忽略。  
+
+---  
+```cpp
+int accept( int sockfd, struct sockaddr *addr, socklen_t *addrlen);
+```  
+accept()系统调用与基于连接的套接字类型(SOCK_STREAM, SOCK_SEQPACKET)一起使用。   
+它从listen套接字的sockfd提取挂在连接队列上的第一个连接请求，从而创建一个新的connected套接字，并返回一个新的文件描述符套接字。  
+新创建的套接字未处于监听状态。原始套接字sockfd不受此调用的影响。  
+新的fd用于`send()`和`recv()`。  
+
+### 参数   
+`sockfd`:传入由服务器调用`socket()`创建的fd，这个fd也用于`bind()`和`listen()`。  
+`addr`:存放客户端地址。  
+`addrlen`:注意是个指针，先初始化为addr指向的结构体的长度，在函数调用结束后被设置为实际地址信息的长度。  
+
+---  
+```cpp
+size_t recv(int sockfd, void*buf, size_t len, int flags);
+ssize_t read(int fd, void* buf, size_t len);
+```  
+`recv()`和`read()`之间的唯一区别是`recv()`有`flags`参数。 如果`flags`参数为0, `recv()`通常等同于`read()`。    
+`recv()`系统调用用于从套接字接收消息。它们可以用于在无连接和面向连接的套接字上接收数据。  
+返回消息的长度。如果消息太长而无法放入所提供的缓冲区，则根据接收消息的套接字类型，可能会丢弃多余的字节。  
+如果套接字上没有可用的消息，`recv()`将阻塞等待消息到达，除非套接字是非阻塞的，在这种情况下返回值`-1`，并将外部变量`errno`设置为`EAGAIN`或`EWOULDBLOCK`。  
 
 
 
