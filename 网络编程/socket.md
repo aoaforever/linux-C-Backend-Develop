@@ -9,6 +9,7 @@ socket网络编程函数说明
   * [socket()](#socket)  
   * [bind()](#bind)  
   * [inet_aton()](#inet_aton)  
+  * [listen()](#listen)
   * [accept()](#accept)  
   * [recv/read()](#recv)  
   * [send/write()](#send)  
@@ -121,6 +122,16 @@ struct in_addr{
  `addr`:转换后的值存放在这里.一般传入sockaddr_in结构体里的sin_addr成员。  
 `inet_aton()`能够将一个字符串IP地址转换为一个32位的网络序列IP地址。  
 成功返回非零值，如果输入地址不正确则会返回零。使用这个函数并没有`错误码`存放在`errno`中，所以他的值会被忽略。  
+
+---
+### listen
+```cpp
+int listen(int sockfd, int backlog)-->(0,-1);
+```
+`listen()`将`sockfd`用做监听，监听即将到来的客户端连接请求，把请求放到syn queue上。  
+`backlog`参数表示syn queue的最大长度，防止泛洪攻击。当syn queue满了，客户端将会收到`ECONNREFUSED`错误。
+`listen()`成功返回`0`，失败返回`-1`，并恰当的设置`errno`。  
+
 
 ---  
 ### accept
