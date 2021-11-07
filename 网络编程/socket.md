@@ -3,6 +3,8 @@ socket网络编程函数说明
 
 使用小贴士：  
 1. socket如果不开多进程、多线程，那么一次只能处理一个客户端，会在`accept()`这里阻塞，只有当这个客户端断开后，才能连接下一个客户端进行处理。（待验证）
+2. 使用INADDR_ANY的时候，必须是addr.sin_addr.s_addr = htonl(INADDR_ANY);  如果是addr.sin_addr.s_addr = inet_addr(INADDR_ANY)会Segmentation fault (core dumped)。 
+
 
 
 * [服务器端](#服务器端)
