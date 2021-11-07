@@ -7,12 +7,7 @@
 using namespace std;
 #define MAX_BYTES 1024
 
-int create_socket()
-{
-	int fd;
-	fd = socket(PF_INET,SOCK_STREAM,0);
-	return fd;
-}
+
 
 int create_server_socket( const char* const  argv[])
 {
