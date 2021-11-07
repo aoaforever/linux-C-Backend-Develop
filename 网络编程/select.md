@@ -46,7 +46,7 @@ fd_set中应包含服务器的listen_fd，和未来将要连接的client_fd（�
 void FD_ZERO(fd_set *set);
 void FD_SET(int fd, fd_set *set);
 void FD_CLR(int fd, fd_set *set);
-int FD_ISSET(int fd, fd_set *set);
+int FD_ISSET(int fd, fd_set *set)-->(0,!=0);
 ```
 |函数|说明|
 |---|----|
