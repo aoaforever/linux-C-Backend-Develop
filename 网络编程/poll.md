@@ -12,7 +12,7 @@ struct pollfd{
 |  -  |-    |
 |fds|存放多个fd的数组|
 |nfds|管理的fd的数量|
-|timeout|超时，以毫秒为单位，表示poll阻塞多少毫秒。传入-1表示会超时，一直阻塞。传入0，poll立刻返回，不阻塞|
+|timeout|超时，以毫秒为单位，表示poll阻塞多少毫秒。传入-1表示不会超时，一直阻塞。传入0，poll立刻返回，不阻塞|
 |fd|文件描述符，如果设置为-1，那么对应的事件events将会被忽略，revents将会返回0|
 |events|一般传入POLLIN,表示想要读文件|
 |revents|fd有事件，将在这里返回值，并不会修改fd和events|
