@@ -1,7 +1,7 @@
 <span id="顶部"></span>
 ```cpp
 #include <sys/select.h> 
-int select(int nfds, fd_set *readfds, fd_set *writefds, fd_set *exceptfds, struct timeval *timeout);
+int select(int nfds, fd_set *readfds, fd_set *writefds, fd_set *exceptfds, struct timeval *timeout)-->(<0,0,>0);
 
 #include <sys/time.h>
 struct timeval{
