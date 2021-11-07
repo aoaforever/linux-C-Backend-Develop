@@ -72,12 +72,12 @@ int main(int argc , char * argv[])
 		{
 		 for(int fd=0; fd<max_fd+1;fd++)
 		 {
-		  if(FD_ISSET(fd,&tmpsets) <=0) continue;//这里是需要半段tmpsets而不是readfds。
+		  if(FD_ISSET(fd,&tmpsets) <=0) continue;//这里是需要判断tmpsets而不是readfds。
 		   if(fd == listen_fd)
 		   {
 		    cout<<"listen_fd："<<fd<<" 有事件"<<endl;
 	   	    int clinet_fd;
-		    cout<<"开是添加新的连接"<<endl;
+		    cout<<"开始添加新的连接"<<endl;
 		    //accept()
 	 	    struct sockaddr_in client;
 		    socklen_t  addrlen=sizeof(client);
@@ -109,7 +109,7 @@ int main(int argc , char * argv[])
 		     close(fd);
 		     cout<<"closed fd: "<<fd<<endl<<endl;
 
-		     //你之前忘记清楚fds了
+		     //你之前忘记清除fds了
 		     FD_CLR(fd,&readfds);
 		     if(fd==max_fd)
 		     {
