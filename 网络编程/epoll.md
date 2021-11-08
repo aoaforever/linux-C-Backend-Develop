@@ -1,4 +1,7 @@
 ## 一再提醒：程序的末尾需要关闭`epoll_create()`创建的`epfd`：`close(epfd)`.
+epoll的好处：
+1. 不用像select那样管理readfds位表，不用像poll那样管理struct pollfd fds[]数组;不需要像select、poll那样更改max_fd。  
+2. 通过修改linux的某些参数，epoll可以支持高并发。  
 
 ```cpp
 #include <sys/epoll.h>
