@@ -1,3 +1,5 @@
+## 一再提醒：程序的末尾需要关闭`epoll_create()`创建的`epfd`：`close(epfd)`.
+
 ```cpp
 #include <sys/epoll.h>
 
