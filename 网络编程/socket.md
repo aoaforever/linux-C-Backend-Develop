@@ -139,7 +139,7 @@ int listen(int sockfd, int backlog)-->(0,-1);
 ---  
 ### accept
 ```cpp
-int accept( int sockfd, struct sockaddr *addr, socklen_t *addrlen);
+int accept( int sockfd, struct sockaddr *addr, socklen_t *addrlen)-->(fd,-1);
 ```  
 accept()系统调用与基于连接的套接字类型(SOCK_STREAM, SOCK_SEQPACKET)一起使用。   
 它从listen套接字的sockfd提取挂在连接队列上的第一个连接请求，从而创建一个新的connected套接字，并返回一个新的文件描述符套接字。  
