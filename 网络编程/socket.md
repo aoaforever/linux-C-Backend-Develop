@@ -27,8 +27,9 @@ socket网络编程函数说明
 服务器端有如下函数(并未列完)：  
 ```cpp
 #include <sys/socket.h>
-int socket(int domain, int type, int protocol);  
-int bind(int sockfd, const struct sockaddr *addr, socklen_t addrlen);  
+int socket(int domain, int type, int protocol)-->(fd,-1);  
+int bind(int sockfd, const struct sockaddr *addr, socklen_t addrlen)-->(0,-1);  
+int listen(int sockfd, int backlog)-->(0,-1);  
 int accept( int sockfd, struct sockaddr *addr, socklen_t *addrlen);  
 size_t recv(int sockfd, void*buf, size_t len, int flags);  
 ssize_t read(int fd, void* buf, size_t len); //#include <unistd.h>
@@ -75,7 +76,7 @@ Out-of-band data（[带外数据、加速数据](https://blog.csdn.net/yejing_ut
 ---
 ### bind
 ```cpp
-int bind(int sockfd, const struct sockaddr *addr, socklen_t addrlen);
+int bind(int sockfd, const struct sockaddr *addr, socklen_t addrlen)-->(0,-1);
 ```  
 当使用`socket()`创建套接字时，它存在于名称空间(地址族)中，但没有分配给它地址。  
 `bind()`将addr指定的地址分配给文件描述符`sockfd`引用的套接字。  
