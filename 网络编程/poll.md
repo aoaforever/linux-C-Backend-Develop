@@ -1,5 +1,5 @@
 ```cpp
-int poll(struct pollfd *fds, nfds_t nfds, int timeout);
+int poll(struct pollfd *fds, nfds_t nfds, int timeout)-->(fds,0,-1);
 
 struct pollfd{
   int     fd;       //file descriptor
@@ -25,6 +25,13 @@ struct pollfd{
 |POLLRDHUP||
 |POLLERR||
 |POLLNVAL||
+
+|返回值|说明|
+|------|----|
+|>0    |返回有事件的fd数量|
+|=0    |超时 |
+|-1    |错误，并且恰当的设置errno|
+
 
 * `poll`本质上和`select`没有差别，都是监听多个文件描述符，管理多个描述符也是进行轮询，根据描述符的状态进行处理。  
 * 但是poll没有最大文件描述符数量的限制。  
