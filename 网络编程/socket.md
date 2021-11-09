@@ -44,11 +44,12 @@ int socket(int domain, int type, int protocol);
 ```
 `socket()`用于创建通信的端点，并返回指向该端点的文件描述符。成功调用返回的文件描述符将是当前未被进程打开的编号最低的文件描述符。  
 ### 参数：  
-`domain`:选择协议族用以通信。这些协议族定义在了 <sys/socket.h>中。一般传入以下值：
-| Name | Purpose | 
+`domain协议族`:选择协议族用以通信。这些协议族定义在了 <sys/socket.h>中。一般传入以下值：
+| 地址族 | Purpose | 
 | ----|--------|
-|AF_INET|IPv4 Internet protocols|
-|AF_INET6|IPv6 Internet protocols|
+|AF_INET|IPv4 Internet protocols，16位端口号和32位IPV4地址，共6字节|
+|AF_INET6|IPv6 Internet protocols，16位端口号，32位流标识，128位IPV6地址，32位范围ID，共26字节|
+|PF_UNIX|文件的路径名，长度可达到108字节|
 
 `type`:指定socket的通信语义。一般传入以下值：
 |Name|Description|
