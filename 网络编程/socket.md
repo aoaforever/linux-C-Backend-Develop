@@ -96,7 +96,7 @@ struct sockaddr{
 };
 ```  
 sockaddr的缺陷是: `sa_data`把目标地址和端口信息混在了一起。  
-因此，通常会用下面这个结构体来代替：  
+因此，IPV4通常会用下面这个结构体来代替：  
 ```cpp
 struct sockaddr_in{
     sa_family_t     sin_family;   //地址镞（Address Family） 2字节
@@ -110,6 +110,31 @@ struct in_addr{
 };
 
 ```
+
+IPV6用下面这个结构体来代替：
+```CPP
+struct sockaddr_in6
+{
+    sa_family_t      sin6_family;    //地址族：AF_INET6
+    u_int16_t        sin6_port;      //端口号
+    u_int32_t        sin6_flowinfo;  //流信息，应设置为0
+    struct in6_addr  sin6_addr;      //IPv6地址结构体，128为，16字节。
+    u_int32_t        sin6_scope_id;  //scope ID,尚处于实验阶段
+};
+
+struct in6_addr{
+    unsigned char sa_addr[16];
+};
+```
+UNIX本地域协议族使用下面这个结构体来代替：
+```cpp
+sturch sockaddr_un
+{
+     sa_family_t    sin_family;     //地址族：AF_UNIX
+     char           sun_path[108];  //文件路径名
+}
+```
+
 `sin_port`和`sin_addr`都必须是网络字节序（NBO），一般可视化的数字都是主机字节序（HBO）。    
   
   
