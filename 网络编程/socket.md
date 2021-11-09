@@ -158,7 +158,8 @@ sturch sockaddr_un
 int listen(int sockfd, int backlog)-->(0,-1);
 ```
 `listen()`将`sockfd`用做监听，监听即将到来的客户端连接请求，把请求放到syn queue上。  
-`backlog`参数表示syn queue的最大长度，防止泛洪攻击。当syn queue满了，客户端将会收到`ECONNREFUSED`错误。
+`backlog`参数表示established状态的socket上限，防止泛洪攻击。  
+处于半连接状态的socket的上限则由／proc/sys/net/ipv4/tcp_max_syn_backlog 内核参数定义。当syn queue满了，客户端将会收到`ECONNREFUSED`错误。（可能有误，见[解释1](https://blog.csdn.net/yangbodong22011/article/details/60399728),[解释2](https://blog.csdn.net/yangbodong22011/article/details/60468820)）
 `listen()`成功返回`0`，失败返回`-1`，并恰当的设置`errno`。  
 
 
@@ -167,6 +168,7 @@ int listen(int sockfd, int backlog)-->(0,-1);
 ```cpp
 int accept( int sockfd, struct sockaddr *addr, socklen_t *addrlen)-->(fd,-1);
 ```  
+**accpetd队列（用来保存处于established状态，但是应用层没有调用accept取走的请求）。**
 accept()系统调用与基于连接的套接字类型(SOCK_STREAM, SOCK_SEQPACKET)一起使用。   
 它从listen套接字的sockfd提取挂在连接队列上的第一个连接请求，从而创建一个新的connected套接字，并返回一个新的文件描述符套接字。  
 新创建的套接字未处于监听状态。原始套接字sockfd不受此调用的影响。  
