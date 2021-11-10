@@ -195,6 +195,16 @@ ssize_t read(int fd, void* buf, size_t len)-->(ssize_t,0,1); //#include <unistd.
 |=0    |对方断开连接|
 |>0    |返回读取到的字节数|
 
+#### UDP数据读写
+```cpp
+#include <sys/types.h>
+#include <sys/socket.h>
+ssize_t recvfrom( int sockfd, void *buf, size_t len, int flags, struct sockaddr *src_addr, socklen_t *addrlen);
+ssize_t sendto  ( int sockfd, const void* buf, size_t len, int flags, const struct sockaddr *dest_addr, socklen_t addrlen);
+```
+因为UDP通信没有连接的概念，所以我们每次读取数据都需要获取发送端的socket地址，即参数src_addr所指的内容，addrlen参数则指定该地址的长度。  
+值得一提的是，recvfrom/sendto系统调用也可以用于面向连接（STREAM）的socket的数据读写，只需要把最后两个参数都设置为NULL以忽略发送端，接收端的socket地址。  
+
 ---  
 ### send
 ```cpp
