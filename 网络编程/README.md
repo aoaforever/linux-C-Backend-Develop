@@ -2,6 +2,7 @@
 * [网络编程的头文件](#关于头文件)
 * [socket是什么？socket基础API，网络信息API](#socket地址)
 * [读取设置sokcet_fd属性](#读取设置sokcet_fd属性)
+* [通过网络信息API获取主机、服务的完整信息](#通过网络信息API获取主机、服务的完整信息)
 ---
 ### 关于头文件
 ```cpp
@@ -25,12 +26,14 @@
 包含：htonl(), htons(), ntohl(), ntohs(), inet_addr(), inet_pton(), inet_aton(), inet_ntoa()
 
 ---
+### socket是什么？socket基础API，网络信息API
 <span id="socket地址"></span>
 * socket 地址： socket最开始的含义是一个IP地址和端口对（ip,port）。它唯一地表示了使用TCP通信的一端。称为：socket地址  
 * socket基础API：socket的主要API都定义在<sys/socket.h>头文件中。
 * 网络信息API：linux提供了一套网络信息API，以实现主机名和IP地址之间的转换，以及服务名称和端口号之间的转换。
 
 ---
+### 读取设置sokcet_fd属性
 <span id="读取设置sokcet_fd属性"></span>
 下面这两个系统调用可以专门用来读取和设置socket文件描述符属性的方法：
 ```cpp
@@ -51,3 +54,47 @@ int setsockopt( int sockfd, int level, int option_name, const void* option_value
  * 此外，我们也可以通过修改内核参数/proc/sys/ncνipv4/tcp_tw_recycle 来快速回收被关闭的socket，从而使得TCP 连接根本就不进入TIME_WAIT状态，进而允许应用程序立即重用本地的socket地址。
  * 此外，我们可以直接修改内核参数/proc/sys/net/ipv4/tcp_rmem 和/proc/sys/net/ipv4/tcp_wmem 来强制TCP 接收缓冲区和发送缓冲区的大小没有最小值限制。  
  * 默认情况下， TCP接收缓冲区的低水位标记和TCP 发送缓冲区的低水位标记均为1字节．
+
+
+---
+### 通过网络信息API获取主机、服务的完整信息
+<span id="通过网络信息API获取主机、服务的完整信息"></span>
+```cpp
+#include <netdb.h>
+struct hostent* gethostbyname( const char* name); //根据主机名称获取主机的完整信息
+struct hostent* gethostbyaddr( const void* addr, size_t len, int type);//根据IP地扯获取主机的完整信息
+
+struct hostent
+{
+    char*     h_name;       //主机名
+    char**    h_aliases;    //主机别名列表，可能有多个
+    int       h_addrtype;   //地址类型
+    int       h_length;     //地址长度
+    char**    h_addr_list;  //按网络字节序列出的主机IP地址列表
+}；
+```
+gethostbyname函数通常先在本地的/etc/hosts 配置文件中查找主机，如果没有找到，再去访问DNS服务器。
+```CPP
+>>cat /etc/hosts
+127.0.0.1	localhost
+```
+
+```cpp
+#include<netdb.h>
+struct servent* getservbyname(const char* name, const char* proto);
+struct servent* getservbyport(int port, const char* proto);
+
+struct servent
+{
+    char*     s_name;       //服务名称
+    char**    s_aliases;    //服务的别名列表，可能有多个
+    int       s_port;       //端口号
+    char*     s_proto;      //服务类型，通常是tcp或者udp
+}
+
+>>cat /etc/services
+服务名字   端口号/(tcp或udp)   别名   #注释
+http		   80/tcp		          www		# WorldWideWeb HTTP
+
+```
+
