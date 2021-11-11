@@ -1,7 +1,7 @@
 ## README目录
 * [网络编程的头文件](#关于头文件)
-* [socket是什么？socket基础API，网络信息API]()
-* []
+* [socket是什么？socket基础API，网络信息API](#socket地址)
+* [读取设置sokcet_fd属性](#读取设置sokcet_fd属性)
 
 ### 关于头文件
 ```cpp
@@ -25,12 +25,13 @@
 包含：htonl(), htons(), ntohl(), ntohs(), inet_addr(), inet_pton(), inet_aton(), inet_ntoa()
 
 ---
-<>
-socket 地址： socket最开始的含义是一个IP地址和端口对（ip,port）。它唯一地表示了使用TCP通信的一端。称为：socket地址  
-socket基础API：socket的主要API都定义在<sys/socket.h>头文件中。
-网络信息API：linux提供了一套网络信息API，以实现主机名和IP地址之间的转换，以及服务名称和端口号之间的转换。
+<span id="socket地址"></span>
+* socket 地址： socket最开始的含义是一个IP地址和端口对（ip,port）。它唯一地表示了使用TCP通信的一端。称为：socket地址  
+* socket基础API：socket的主要API都定义在<sys/socket.h>头文件中。
+* 网络信息API：linux提供了一套网络信息API，以实现主机名和IP地址之间的转换，以及服务名称和端口号之间的转换。
 
 ---
+<span id="读取设置sokcet_fd属性"></span>
 下面这两个系统调用可以专门用来读取和设置socket文件描述符属性的方法：
 ```cpp
 #include <sys/socket.h>
