@@ -78,11 +78,15 @@ gethostbyname函数通常先在本地的/etc/hosts 配置文件中查找主机�
 >>cat /etc/hosts
 127.0.0.1	localhost
 ```
-
+getservbyname 函数根据名称获取某个服务的完整信息， getservbyport 函数根据端口号获取某个服务的完整信息。  
+它们实际上都是通过读取/etc/services 文件来获取服务的信息的。
 ```cpp
 #include<netdb.h>
 struct servent* getservbyname(const char* name, const char* proto);
 struct servent* getservbyport(int port, const char* proto);
+/*name 参数指定目惊服务的名字. port 参数指定目标服务对应的端口号. proto 参数指定
+服务类型，给它传递“tcp ”表示获取流服务，给他传递“udp”表示获取数据报服务，给它传递NULL 则表示获取所有类型的服务。
+这两个函数返回的都是servent 结构体*/
 
 struct servent
 {
