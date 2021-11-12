@@ -2,6 +2,7 @@
 * [网络编程的头文件](#关于头文件)
 * [socket是什么？socket基础API，网络信息API](#socket地址)
 * [读取设置sokcet_fd属性](#读取设置sokcet_fd属性)
+* [通过地址信息函数获取本端、远端的socket地址](#通过地址信息函数获取本端、远端的socket地址)
 * [通过网络信息API获取主机、服务的完整信息](#通过网络信息API获取主机、服务的完整信息)
 ---
 ### 关于头文件
@@ -55,6 +56,17 @@ int setsockopt( int sockfd, int level, int option_name, const void* option_value
  * 此外，我们可以直接修改内核参数/proc/sys/net/ipv4/tcp_rmem 和/proc/sys/net/ipv4/tcp_wmem 来强制TCP 接收缓冲区和发送缓冲区的大小没有最小值限制。  
  * 默认情况下， TCP接收缓冲区的低水位标记和TCP 发送缓冲区的低水位标记均为1字节．
 
+---
+### 通过地址信息函数获取本端、远端的socket地址
+<span id="通过地址信息函数获取本端、远端的socket地址"></span>
+```cpp
+#include <sys/socket.h>
+int getsockname(int sockfd, struct sockaddr* address, socklen_t* address_len)-->(0,-1);//getsocknamc 获取 sockfd 对应的自己本端 socket 地址，并将其存储于address 参数指定的内存中，该socket地址的长度则存储在address_len参数指向的变量中。  
+//如果实际 socket 地址的长度大于 address 所指内存区的大小，那么该 socket 地址将被截断。
+
+int getpeername(int sockfd, struct sockaddr* address, socklen_t* address_len)-->(0,-1);//getpeemame 获取sockfd对应的远端socket地址
+```
+
 
 ---
 ### 通过网络信息API获取主机、服务的完整信息
@@ -101,4 +113,6 @@ struct servent
 http	  80/tcp		     www	# WorldWideWeb HTTP
 
 ```
+
+**以上这四个函数都是不可重入的，即非线程安全的。如果在他们函数名的尾部加上_r，则又可以重入了。这个名命规则也适用于其他函数的可重入版本。**
 
