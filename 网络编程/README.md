@@ -84,7 +84,7 @@ getservbyname 函数根据名称获取某个服务的完整信息， getservbypo
 #include<netdb.h>
 struct servent* getservbyname(const char* name, const char* proto);
 struct servent* getservbyport(int port, const char* proto);
-/*name 参数指定目惊服务的名字. port 参数指定目标服务对应的端口号. proto 参数指定
+/*name 参数指定目标服务的名字. port 参数指定目标服务对应的端口号. proto 参数指定
 服务类型，给它传递“tcp ”表示获取流服务，给他传递“udp”表示获取数据报服务，给它传递NULL 则表示获取所有类型的服务。
 这两个函数返回的都是servent 结构体*/
 
@@ -92,13 +92,13 @@ struct servent
 {
     char*     s_name;       //服务名称
     char**    s_aliases;    //服务的别名列表，可能有多个
-    int       s_port;       //端口号
+    int       s_port;       //端口号，以网络字节序存储
     char*     s_proto;      //服务类型，通常是tcp或者udp
 }
 
 >>cat /etc/services
 服务名字   端口号/(tcp或udp)   别名   #注释
-http		   80/tcp		          www		# WorldWideWeb HTTP
+http	  80/tcp		     www	# WorldWideWeb HTTP
 
 ```
 
