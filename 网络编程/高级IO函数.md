@@ -50,6 +50,40 @@ ssize_t sendfile(int out_fd, int in_fd, off_t* offset, size_t count)-->(ssize_t,
 * 该函数的 man 手册明确指出， in_fd 必须是一个支持类似 mmap 函数的文件描述符，即它必须指向真实的文件，不能是 socket 和管道；  
 * 而 out_fd 则必须是一个 socket。由此可见，sendfile 几乎是专门为在网络上传输文件而设计的。  
 
+### splice函数与零拷贝
+<span id="splice函数与零拷贝"></span>
+
+### mmap函数和munmap函数与进程间通信的共享内存
+<span id="mmap函数和munmap函数与进程间通信的共享内存"></span>
+* mmap 函数用于申请一段内存空间。我们可以将这段内存作为进程间通信的共享内存，也可以将文件直接映射到其中。  
+* munmap函数则释放由mmap创建的这段内存空间。  
+```CPP
+#include<sys/mman.h>
+void* mmap(void* start, size_t length, int prot, int flags, int fd, off_t offset);
+int munmap(void* start, size_t length);
+```
+prot参数用来设置内存段的访问权限。  
+|prot参数|说明|
+|--------|----|
+|PROT_READ|内存段可读|
+|PROT_WRITE|内存段可写|
+|PROT_EXEC|内存段可执行|
+|PROT_NONE|内存段不能被访问|
+
+flags参数控制内存段内容被修改后程序的行为。MAP_SHARED和MAP_PRIVATE是互斥的。  
+|flags参数|含义|
+|--------|----|
+|MAP_SHARED|在进程间共享这段内存，对该内存段的修改将反映到被映射的文件中。它提供了进程间共享内存的POSIX方法|
+|MAP_PRIVATE|内存段为调用进程所私有。对该内存段的修改不会反映到被映射的文件中|
+|MAP_ANONYMOUS|这段内存不是从文件映射而来的。其中内容被初始化为全0。在这种情况下，mmap函数的最后两个参数将被忽略|
+|MAP_FIXED|内存段必须位于start参数指定的地址处，start必须是内存页面大小（4096字节）的整数倍|
+|MAP_HUGETLB|按照“大内存页面”来分配内存空间，“大内存页面”的大小可以通过/proc/meminfo文件来查看|
+
+`fd`参数是被映射文件对应的文件描述符。它一般通过 open 系统调用获得。  
+`offset` 参数设置从文件的何处开始映射，对于不需要读人整个文件的情况。  
+
+
+
 
 
 
