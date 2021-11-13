@@ -75,6 +75,20 @@ ssize_t splice(int fd_in, loff_t* off_in, int fd_out, loff_t* off_out, size_t le
 * splice 函数失败时返回－1 并设置 errno。
 * 可用于实现回射服务。
 
+
+### tee函数与零拷贝
+<span id="tee函数与零拷贝"></span>
+* **tee 函数在两个管道文件描述符之间复制数据，也是零拷贝操作 。**，它不消耗数据，因此
+源文件描述符上的数据仍然可以用于后续的读操作。  
+* 与splice函数的区别是tee的两个fd都必须是管道fd。  
+
+```CPP
+#include <fcntl.h>
+ssize_t tee(int fd_in, int fd_out, size_t len, unsigned int flags)-->(ssize_t,0,-1);
+```
+* tee函数与splice函数可用于实现 同时输出数据到终端和文件的tee程序（tee程序不是tee函数）  
+
+
 ### mmap函数和munmap函数与进程间通信的共享内存
 <span id="mmap函数和munmap函数与进程间通信的共享内存"></span>
 * mmap 函数用于申请一段内存空间。我们可以将这段内存作为进程间通信的共享内存，也可以将文件直接映射到其中。  
