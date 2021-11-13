@@ -78,7 +78,7 @@ ssize_t splice(int fd_in, loff_t* off_in, int fd_out, loff_t* off_out, size_t le
 
 ### tee函数与零拷贝
 <span id="tee函数与零拷贝"></span>
-* **tee 函数在两个管道文件描述符之间复制数据，也是零拷贝操作 。**，它不消耗数据，因此
+* **tee 函数在两个管道文件描述符之间复制数据，也是零拷贝操作 。** 它不消耗数据，因此
 源文件描述符上的数据仍然可以用于后续的读操作。  
 * 与splice函数的区别是tee的两个fd都必须是管道fd。  
 
@@ -117,6 +117,9 @@ flags参数控制内存段内容被修改后程序的行为。MAP_SHARED和MAP_P
 
 `fd`参数是被映射文件对应的文件描述符。它一般通过 open 系统调用获得。  
 `offset` 参数设置从文件的何处开始映射，对于不需要读人整个文件的情况。  
+
+
+### fcntl函数
 
 
 
