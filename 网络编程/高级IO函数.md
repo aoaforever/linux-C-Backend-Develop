@@ -52,6 +52,28 @@ ssize_t sendfile(int out_fd, int in_fd, off_t* offset, size_t count)-->(ssize_t,
 
 ### splice函数与零拷贝
 <span id="splice函数与零拷贝"></span>
+splice 函数用于在两个文件描述符之间移动数据,也是零拷贝操作。
+```CPP
+#include<fcntl.h>
+ssize_t splice(int fd_in, loff_t* off_in, int fd_out, loff_t* off_out, size_t len, unsigned int flags);
+```
+
+* fd＿in 参数是待输入数据的文件描述符。如果 fd_in 是一个管道文件描述符，那么 off_in
+参数必须被设置为 NULL。  
+* 如果 fd_in 不是一个管道文件描述符〈比如 socket），那么 off_in表示从输入数据流的何处开始读取数据．此时，若 off_in 被设置为 NULL， 则袋示从输入数据流的当前偏移位置读入；若 off_in 不为 NULL，则它将指出具体的偏移位置。
+* fd_out/off_out 参数的含义与 fd＿in/off_in相同，不过用于输出数据流。
+* len 参数指定移动数据的长度 
+* flags 参数则控制数据如何移动
+
+|falgs|含义|
+|-----|----|
+|SPLICE_F_MOVE|如果合适的话，按整页内存移动数据，这只是给内核的一个提示。不过有bug，实际上没有任何效果|
+|SPLICE_F_MORE|给内核的一个提示，后续的splice调用将读取更多数据|
+
+* 使用 splice 函数时，**fd_in 和 fd_out 必须至少有一个是管道文件描述符**。  
+* splice 函数调用成功时返回移动字节的数量。它可能返回 0，表示没有数据宿要移动，这发生在从管道中读取数据 （fd＿in 是管道文件描述符〉而该管道没有被写入任何数据时。  
+* splice 函数失败时返回－1 并设置 errno。
+* 可用于实现回射服务。
 
 ### mmap函数和munmap函数与进程间通信的共享内存
 <span id="mmap函数和munmap函数与进程间通信的共享内存"></span>
