@@ -22,7 +22,7 @@ struct pollfd{
 |POLLIN|      读数据|
 |POLLOUT|     写数据|
 |POLLPRI||
-|POLLRDHUP||
+|POLLRDHUP|接收到对方关闭连接的请求之后触发，需要在代码最开始处定义_GNU_SOURCE|
 |POLLERR||
 |POLLNVAL||
 
