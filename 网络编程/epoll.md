@@ -2,6 +2,8 @@
 epoll的好处：
 1. 不用像select那样管理readfds位表，不用像poll那样管理struct pollfd fds[]数组;不需要像select、poll那样更改max_fd。  
 2. 通过修改linux的某些参数，epoll可以支持高并发。  
+3. epoll把用户关心的文件描述符上的事件放在内核里的一个事件表中，从而无须像select和poll那样每次调用都要重复传入文件描述符集或事件集。
+4. 但epoll需要使用一个额外的文件描述符，来唯一标识内核中的这个时间表，使用epoll_create函数来创建。
 
 ```cpp
 #include <sys/epoll.h>
