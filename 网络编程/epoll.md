@@ -9,7 +9,7 @@ epoll的好处：
 #include <sys/epoll.h>
 
 int epoll_create(int size)-->int epfd;   //size参数已经被Linux 2.6.8忽略，只需要传一个>0的值就可以。
-int epoll_ctl(int epfd, int op, int fd, struct epoll_event *event)-->(0,-1);
+int epoll_ctl(int epfd, int op, int fd, struct epoll_event *event)-->(0,-1);//用来操作epoll的内核事件表
 
 typedef unio epoll_data{
    void     *ptr;
@@ -20,13 +20,15 @@ typedef unio epoll_data{
 
 sturct epoll_event{
    uint32_t      events;  //Epoll events
-   epoll_data_t  data;    //User data variable
+   epoll_data_t  data;    //User data variable，用于存储用户数据
 };
 
 int epoll_wait(int epfd, struct epoll_event *events, int maxevents, int timeout)
 
 ```
-
+* `epoll_data_t`是一个联合体，其4个成员中使用最多的是fd，它指定事件来自哪个文件描述符。  
+* ptr成员可用来指定与fd相关的用户数据。但由于epoll_data_t是一个联合体，我们不能同时使用其ptr成员和fd成员，因此，如果要将fd和用户数据关联起来（正如8.5.2小节讨论的将句柄和事件处理器绑定一样），以实现快速的数据访问，只能使用其他手段，比如放弃使用fd成员，而在ptr指向的用户数据中包含fd。  
+&emsp;  
 `epoll`有两种触发模式：水平触发（level-triggered）和边缘触发（edge-triggered）。  
 epoll可以管理大量的文件描述符。  
 epoll实例可以看作是一个容器，其监管两个列表：
