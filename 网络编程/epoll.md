@@ -29,6 +29,11 @@ int epoll_wait(int epfd, struct epoll_event *events, int maxevents, int timeout)
 * `epoll_data_t`是一个联合体，其4个成员中使用最多的是fd，它指定事件来自哪个文件描述符。  
 * ptr成员可用来指定与fd相关的用户数据。但由于epoll_data_t是一个联合体，我们不能同时使用其ptr成员和fd成员，因此，如果要将fd和用户数据关联起来（正如8.5.2小节讨论的将句柄和事件处理器绑定一样），以实现快速的数据访问，只能使用其他手段，比如放弃使用fd成员，而在ptr指向的用户数据中包含fd。  
 &emsp;  
+
+* `epoll_wait`函数如果检测到事件，就将所有就绪的事件从内核事件表（由epfd参数指定）中复制到它的第二个参数events指向的数组中。这个数组只用于输出epoll_wait检测到的就绪事件。而不像select和poll的数组参数那样既用于传入用户注册的事件，又用于输出内核检测到的就绪事件。这就极大地提高了应用程序索引就绪文件描述符的效率。  
+&emsp;  
+
+
 `epoll`有两种触发模式：水平触发（level-triggered）和边缘触发（edge-triggered）。  
 epoll可以管理大量的文件描述符。  
 epoll实例可以看作是一个容器，其监管两个列表：
