@@ -11,22 +11,27 @@
 ```cpp
 #include <sys/sokcet.h>
 ```
-包含：socket(), bind(), accept(), recv(), send()  
+包含：socket(), bind(), accept(), recv(), send(), sockaddr_in结构体, connect()
 
 ```cpp
 #include <unistd.h>
 ```
-包含：read(), write(), close()
+包含：read(), write(), close(), pipe()
 
 ```cpp
 #include <string.h>
 ```
-[包含](https://www.runoob.com/cprogramming/c-standard-library-string-h.html)：memset(), memcpy(), strlen()
+[包含](https://www.runoob.com/cprogramming/c-standard-library-string-h.html)：memset(), memcpy(), strlen(), bzero(),
 
 ```cpp
 #include <arpa/inet.h>
 ```
 包含：htonl(), htons(), ntohl(), ntohs(), inet_addr(), inet_pton(), inet_aton(), inet_ntoa()
+
+```CPP
+#include <stdlib.h>
+```
+包含：atoi()
 
 ---
 ### socket是什么？socket基础API，网络信息API
@@ -129,3 +134,4 @@ http	  80/tcp		     www	# WorldWideWeb HTTP
 <span id="待解决的问题"></span>
 1. 非阻塞connect，可以同时发起多个连接并一起等待。errno值：EINPROGRESS，用getsockopt（）查看。
 2. `#define _GNU_SOURCE 1` 是什么？
+3. POLLRDHUP是什么？当socket接收到对方关闭连接时的请求之后触发，有可能是TCP连接被对方关闭，也有可能是对方关闭了写操作。如果不使用EPOLLRDHUP事件，我们也可以单纯的使用EPOLLIN事件然后根据recv函数的返回值来判断socket上收到的是有效数据还是对方关闭连接的请求。 需要定义：`#define _GNU_SOURCE 1`.  
