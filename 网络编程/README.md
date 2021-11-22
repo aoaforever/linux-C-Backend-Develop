@@ -31,7 +31,12 @@
 ```CPP
 #include <stdlib.h>
 ```
-包含：atoi()
+包含：atoi(), basename()
+
+```cpp
+#include <fcntl.h>
+```
+包含：splice(), fcntl(), F_SETFL, F_GETFL, O_NONBLOCK, 
 
 ---
 ### socket是什么？socket基础API，网络信息API
