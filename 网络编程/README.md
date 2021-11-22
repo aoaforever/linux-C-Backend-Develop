@@ -142,3 +142,4 @@ http	  80/tcp		     www	# WorldWideWeb HTTP
 3. POLLRDHUP是什么？当socket接收到对方关闭连接时的请求之后触发，有可能是TCP连接被对方关闭，也有可能是对方关闭了写操作。如果不使用EPOLLRDHUP事件，我们也可以单纯的使用EPOLLIN事件然后根据recv函数的返回值来判断socket上收到的是有效数据还是对方关闭连接的请求。 需要定义：`#define _GNU_SOURCE 1`.  
 4. 客户端启动的时候需要传连接的IP地址和服务器的端口号。。而不是自己新建一个端口号。当连接成功后，内核会自动给客户端分配一个端口号。这时如果想查看客户端的地址信息，就用getsockname()、getpeername()来查看本端和对方的地址信息。
 5. epoll的边缘触发，在读取数据的时候需要用while循环保证读取完整。
+6. 需不需要关闭udp的fd，关了之后，sendto还能调用吗？
