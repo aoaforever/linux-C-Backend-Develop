@@ -17,3 +17,6 @@ Linux C++ 后台开发 相关的基础，网络编程。
     * [文件描述符](https://github.com/aoaforever/linux-C-Backend-Develop/blob/main/linux%E5%9F%BA%E7%A1%80/%E6%96%87%E4%BB%B6%E6%8F%8F%E8%BF%B0%E7%AC%A6.md)
    
 
+问题记录：
+1. 什么叫竟态条件
+2. 什么叫可重入
