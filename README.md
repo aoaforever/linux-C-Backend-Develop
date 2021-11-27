@@ -21,3 +21,8 @@ Linux C++ 后台开发 相关的基础，网络编程。
 1. 什么叫竞态条件
 2. 什么叫可重入
 3. 对新来的fd设置边缘触发和非阻塞能提高效率吗？
+4. 使用socketpair创建管道，注册pipefd[0]上的可读事件(P204页）
+```CPP
+socketpair(PU_UNIX, SOCK_STREAM, 0 , pipefd);
+```
+
