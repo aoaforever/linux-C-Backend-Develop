@@ -146,3 +146,4 @@ http	  80/tcp		     www	# WorldWideWeb HTTP
 5. epoll的边缘触发，在读取数据的时候需要用while循环保证读取完整。
 6. 需不需要关闭udp的fd，关了之后，sendto还能调用吗？
 7. setsockopt(sockfd,SOL_SOCKET,SO_SNDTIMEO,&timeout,len);是什么P212页，P105页说明：如果说fcntl系统调用是控制文件描述符属性的通用POSIX方法，那么下面两个系统调用则是用来专门读取和设置socket文件描述符属性的方法：`setsockopt(int sockfd, int level, int option_name, const void* option_value, socklent_t option_len)、getsockopt()`
+8. timeval 的超时是以秒、微妙计时？ select系统调用的超时是timeval数据结构。
