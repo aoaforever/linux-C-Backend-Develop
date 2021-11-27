@@ -63,6 +63,8 @@ int setsockopt( int sockfd, int level, int option_name, const void* option_value
 |...                                  |SO_RCVLOWAT|int|TCP接受缓存区低水位标记，一般被IO服用系统调用用来判断socket是否可读,当TCP 接收缓冲区中可读数据的总数大于其低水位标记时,IO复用系统调用将通知应用程序可以从对应的socket 上读取数据|
 |...                                  |SO_SNDLOWAT|int|TCP发送缓存区低水位标记，一般被IO服用系统调用用来判断socket是否可写,当TCP发送缓冲区中的空闲空间〈可以写人数据的空间）大于其低水位标记时,IO复用系统调用将通知应用程序可以往对应的socke上写人数据|
 |...                                  |SO_LINGER|linger|若有数据待发送，则延迟关闭|
+|...                                  |SO_SNDTIMEO|timeval|发送数据超时|
+|...                                  |SO_RCVTIMEO|timeval|接收数据超时|
 
  * 此外，我们也可以通过修改内核参数/proc/sys/ncνipv4/tcp_tw_recycle 来快速回收被关闭的socket，从而使得TCP 连接根本就不进入TIME_WAIT状态，进而允许应用程序立即重用本地的socket地址。
  * 此外，我们可以直接修改内核参数/proc/sys/net/ipv4/tcp_rmem 和/proc/sys/net/ipv4/tcp_wmem 来强制TCP 接收缓冲区和发送缓冲区的大小没有最小值限制。  
@@ -143,4 +145,4 @@ http	  80/tcp		     www	# WorldWideWeb HTTP
 4. 客户端启动的时候需要传连接的IP地址和服务器的端口号。。而不是自己新建一个端口号。当连接成功后，内核会自动给客户端分配一个端口号。这时如果想查看客户端的地址信息，就用getsockname()、getpeername()来查看本端和对方的地址信息。
 5. epoll的边缘触发，在读取数据的时候需要用while循环保证读取完整。
 6. 需不需要关闭udp的fd，关了之后，sendto还能调用吗？
-7. setsockopt(sockfd,SOL_SOCKET<SO_SNDTIMEO,&timeout,len);是什么P212页，P105页说明：如果说fcntl系统调用是控制文件描述符属性的通用POSIX方法，那么下面两个系统调用则是用来专门读取和设置socket文件描述符属性的方法：`setsockopt(int sockfd, int level, int option_name, const void* option_value, socklent_t option_len)、getsockopt()`
+7. setsockopt(sockfd,SOL_SOCKET,SO_SNDTIMEO,&timeout,len);是什么P212页，P105页说明：如果说fcntl系统调用是控制文件描述符属性的通用POSIX方法，那么下面两个系统调用则是用来专门读取和设置socket文件描述符属性的方法：`setsockopt(int sockfd, int level, int option_name, const void* option_value, socklent_t option_len)、getsockopt()`
