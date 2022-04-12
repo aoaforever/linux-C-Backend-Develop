@@ -21,7 +21,19 @@ https://zhuanlan.zhihu.com/p/357377511
 			"using namespace std;",
 		],	
 		"description": "auto add commom algorithm header"
-	}
+	},
+	
+	"auto add main()" : {
+		// "scope":"c,cpp",
+		"prefix": "main",
+		"body": [
+			"int main(){",
+			" ",
+			"    return 0;",
+			"}",
+		],	
+		"description": "auto add main() with nothing"
+	}	
 }
 ```
 详细攻略请看链接。
