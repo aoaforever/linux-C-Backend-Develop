@@ -60,12 +60,12 @@ epoll实例可以看作是一个容器，其监管两个列表：
 |-------|-----|
 |EPOLLIN|fd可读|
 |EPOLLOUT|fd可写|
-|EPOLLRDHUP||
+|EPOLLRDHUP|检测对端是否关闭了fd|
 |EPOLLPRI||
 |EPOLLERR||
 |EPOLLHUP||
 |EPOLLET|设置边缘触发，默认是水平触发。|
-|EPOLLONESHOT||
+|EPOLLONESHOT|该fd只能由一个线程处理，处理完后，需要重新设置该位，以下次触发|
 |EPOLLWAKEUP||
 |EPOLLEXCLUSIVE||
 
