@@ -1,4 +1,5 @@
 <span id="顶部"></span>
+### fd_set默认为1024位，可以用32个int来存储，例如：int[32]  。这也就说明select()最多只能同时监管1024个fd。
 ```cpp
 #include <sys/select.h> 
 int select(int nfds, fd_set *readfds, fd_set *writefds, fd_set *exceptfds, struct timeval *timeout)-->(<0,0,>0);
