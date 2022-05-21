@@ -69,7 +69,32 @@ int setsockopt( int sockfd, int level, int option_name, const void* option_value
  * 此外，我们也可以通过修改内核参数/proc/sys/ncνipv4/tcp_tw_recycle 来快速回收被关闭的socket，从而使得TCP 连接根本就不进入TIME_WAIT状态，进而允许应用程序立即重用本地的socket地址。
  * 此外，我们可以直接修改内核参数/proc/sys/net/ipv4/tcp_rmem 和/proc/sys/net/ipv4/tcp_wmem 来强制TCP 接收缓冲区和发送缓冲区的大小没有最小值限制。  
  * 默认情况下， TCP接收缓冲区的低水位标记和TCP 发送缓冲区的低水位标记均为1字节．
+```CPP
+int flag = 1;
+setsockopt(serv_socket,SOL_SOCKET,SO_REUSEADDR,&flag,sizeof(flag));
 
+struct linger{
+    int l_onoff;   // 0关闭，1开启
+    int l_linger;  //滞留时间
+};
+//优雅关闭连接
+if (0 == m_OPT_LINGER)
+{
+    struct linger tmp = {0, 1};
+    setsockopt(m_listenfd, SOL_SOCKET, SO_LINGER, &tmp, sizeof(tmp));
+}
+else if (1 == m_OPT_LINGER)
+{
+    struct linger tmp = {1, 1};
+    setsockopt(m_listenfd, SOL_SOCKET, SO_LINGER, &tmp, sizeof(tmp));
+    /*此时 close 的行为取决于两个条件： 一是被关闭的 socket 对应的 TCP 发送缓冲区中是存还有残留的数据： 
+    二是该 socket 是阻塞的，还是非阻塞的．
+    对于阻塞的 socket , close 将等待一段长为l_linger 的时间，直到 TCP 模块发送完所有残留数据并得到对方的确认． 
+    如果这段时间内 TCP 模块没有发送完残留数据并得到对方的确认，那么 close 系统调用将返回－ 1 并设置 errno 为EWOULDBLOCK . 
+    如果 socket 是非阻塞的， close 将立即返回，此时我们需要根据其返回值和 errno 来判断残留数据是否已经发送完毕．．
+    关于阻篝和非阻塞，我们将在第8 章讨论 ．*/
+}
+```
 ---
 ### 通过地址信息函数获取本端、远端的socket地址
 <span id="通过地址信息函数获取本端、远端的socket地址"></span>
