@@ -20,6 +20,7 @@ Linux C++ 后台开发 相关的基础，网络编程。
     * [读写事件触发的时机](https://github.com/aoaforever/linux-C-Backend-Develop/blob/main/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/%E8%AF%BB%E5%86%99%E4%BA%8B%E4%BB%B6%E8%A7%A6%E5%8F%91%E7%9A%84%E6%97%B6%E6%9C%BA.md)
     * [高级IO函数](https://github.com/aoaforever/linux-C-Backend-Develop/blob/main/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/%E9%AB%98%E7%BA%A7IO%E5%87%BD%E6%95%B0.md)
   * Linux基础
+    * [多线程](https://github.com/aoaforever/linux-C-Backend-Develop/blob/main/linux%E5%9F%BA%E7%A1%80/%E5%A4%9A%E7%BA%BF%E7%A8%8B.md) 
     * [信号](https://github.com/aoaforever/linux-C-Backend-Develop/blob/main/linux%E5%9F%BA%E7%A1%80/%E8%BF%9B%E7%A8%8B%E9%80%9A%E4%BF%A1/%E4%BF%A1%E5%8F%B7.md)
     * [cmake的使用](https://github.com/aoaforever/linux-C-Backend-Develop/blob/main/linux%E5%9F%BA%E7%A1%80/cmake%E7%9A%84%E4%BD%BF%E7%94%A8.md) 
     * [gdb调试](https://github.com/aoaforever/linux-C-Backend-Develop/blob/main/linux%E5%9F%BA%E7%A1%80/gdb%E8%B0%83%E8%AF%95.md)
