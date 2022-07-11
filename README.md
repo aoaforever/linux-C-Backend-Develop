@@ -30,7 +30,7 @@ Linux C++ 后台开发 相关的基础，网络编程。
     * [大端小端与网络字节序](https://github.com/aoaforever/linux-C-Backend-Develop/blob/main/linux%E5%9F%BA%E7%A1%80/%E5%A4%A7%E7%AB%AF%E5%B0%8F%E7%AB%AF%E4%B8%8E%E7%BD%91%E7%BB%9C%E5%AD%97%E8%8A%82%E5%BA%8F.md)
     * [常用命令](https://github.com/aoaforever/linux-C-Backend-Develop/blob/main/linux%E5%9F%BA%E7%A1%80/%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4.md)
     * [文件描述符](https://github.com/aoaforever/linux-C-Backend-Develop/blob/main/linux%E5%9F%BA%E7%A1%80/%E6%96%87%E4%BB%B6%E6%8F%8F%E8%BF%B0%E7%AC%A6.md)
-   
+    * [动态库与静态库的制作](https://github.com/aoaforever/linux-C-Backend-Develop/blob/main/linux%E5%9F%BA%E7%A1%80/%E5%8A%A8%E6%80%81%E5%BA%93%E4%B8%8E%E9%9D%99%E6%80%81%E5%BA%93%E7%9A%84%E5%88%B6%E4%BD%9C/source/readme.md)
 
 问题记录：
 1. 什么叫竞态条件
