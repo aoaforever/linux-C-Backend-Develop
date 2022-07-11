@@ -1,7 +1,9 @@
----
+---------------
+
 ## 静态库的制作
-```BASH
-# g++ main.cpp -o main -I ../include -L ../lib -l hello -Wall
+
+```bash
+g++ main.cpp -o main -I ../include -L ../lib -l hello -Wall
 
 nm main # 看main的符号列表
 ```
