@@ -258,7 +258,16 @@ int connect(int sockfd, const struct sockaddr *addr, socklen_t addrlen);
 `addr`中地址的格式由`sockfd`的地址空间决定。    
 成功连接返回`0`，失败返回`-1`，并且恰当的设置`errno`。
 
-
+异步connect的使用：https://blog.csdn.net/fengye_csdn/article/details/120843556  
+有时候服务器离客户端很远，connect的时候如果时阻塞的，那么就会等待相当长的时间
+```bash
+如果返回值为-1，并且errno为EINPROGRESS的话：
+    The  socket  is nonblocking and the connection cannot be completed immediately.  
+    It is possible to select(2) or poll(2) for completion by selecting the socket for writing.  
+    After select(2) indicates writability, use getsockopt(2) to read the SO_ERROR option at level SOL_SOCKET
+    to determine whether connect() completed successfully (SO_ERROR is zero) 
+    or unsuccessfully (SO_ERROR is one of the usual error codes listed here, explaining the reason for the failure).
+```
 
 
 
